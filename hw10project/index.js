@@ -31,14 +31,43 @@ editBtn.addEventListener('click', editContactInfo);
 searchBar.addEventListener('change', checkFilter)
 
 let onEditMode = false;
+let oldFname;
+let oldPnum;
 function editContactInfo(){
+
     if(onEditMode){
         fnameLabel.disabled = true;
         pnumLabel.disabled = true;
+
+        let newFname = fnameLabel.value;
+        let newPnum = pnumLabel.value;
+
+        if(newFname != oldFname || newPnum != oldPnum){
+            let contactsDB_tmp = JSON.parse(localStorage.getItem("contacts_data_base"));
+            for(i=1;i<contactsDB_tmp.length;i++){
+                if(contactsDB_tmp[i].first_name == oldFname && contactsDB_tmp[i].phone_number == oldPnum){
+                    contactsDB_tmp[i].first_name = newFname;
+                    contactsDB_tmp[i].phone_number = newPnum;
+                    localStorage.setItem("contacts_data_base", JSON.stringify(contactsDB_tmp));
+                    break;
+                }
+            }
+
+            if(searchBar.value){
+                displayContacts(searchBar.value);
+            }
+            else{
+                displayContacts();
+            }
+        }
+
         editBtn.innerText = 'Edit';
         onEditMode = false;
     }
     else{
+        oldFname = fnameLabel.value;
+        oldPnum = pnumLabel.value;
+
         fnameLabel.disabled = false;
         pnumLabel.disabled = false;
         editBtn.innerText = 'Confirm';
