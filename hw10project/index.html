@@ -11,6 +11,10 @@
       input:focus{
         outline: none;
       }
+
+      input:disabled{
+        background-color: transparent;
+      }
     </style>
   </head>
   <body>
@@ -51,7 +55,7 @@
         <div class="contact-inputs flex flex-col w-1/2">
           <div class="name-input flex flex-row mt-20">
             <img class="name-icon w-6 h-6 mr-2 mt-2" src="./Assets/name-icon.png">
-            <input class="fname-input__text w-4/5 h-10 border-b-2 pl-2 focus-within:border-blue-400" placeholder="First name">
+            <input class="fname-input__text w-4/5 h-10 border-b-2 pl-2 focus-within:border-blue-400" placeholder="Full name">
           </div>
 
           <div class="phone-input flex flex-row mt-10">
@@ -66,8 +70,12 @@
     <div class="contact-info-block flex flex-col box-border w-1/2 h-fit mx-auto shadow-lg mt-20 py-4 px-4 hidden">
       <div class="contact_full-name">
         <div class="top-row flex flex-row justify-between">
-          <h1 class="full-name__text text-center mb-10 mx-auto"></h1>
-          <button class="close-contact-info-button mb-10"><img class="w-6 h-6" src="./Assets/close-icon.png"></button>
+          <button class="edit-contact-info text-blue-400 mb-32 w-10">Edit</button>
+          <div class="top-col flex flex-col mt-10">
+            <input class="full-name__text text-center mb-10 mx-auto" disabled>
+            <input class="phone-number__text text-center mb-10 mx-auto" disabled>
+          </div>
+          <button class="close-contact-info-button mb-32"><img class="w-6 h-6" src="./Assets/back-icon.png"></button>
         </div>
 
         <div class="contact-info__button-container flex flex-row justify-between w-full mt-20">

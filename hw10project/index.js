@@ -6,6 +6,7 @@ const backFromCreateBtn = document.querySelector(".back-from-create-button");
 const submitNewContact = document.querySelector(".submit-new-contact-button");
 const closeContactInfoBtn = document.querySelector(".close-contact-info-button");
 const deleteContactBtn = document.querySelector(".delete-contact-button");
+const editBtn = document.querySelector(".edit-contact-info");
 
 let createContactBlock = document.querySelector(".create-contact-block");
 let mainBlock = document.querySelector(".container");
@@ -14,20 +15,41 @@ let contactInfoBlock = document.querySelector(".contact-info-block");
 
 let searchBar = document.querySelector(".search-bar__input");
 
-let firstNameInput = document.querySelector(".fname-input__text");
+let fnameInput = document.querySelector(".fname-input__text");
 let phoneNumberInput = document.querySelector(".phone-input__text");
+
+let fnameLabel = document.querySelector('.full-name__text');
+let pnumLabel = document.querySelector('.phone-number__text');
 
 showCreateBtn.addEventListener('click', showCreateContactBlock);
 backFromCreateBtn.addEventListener('click', showContainer);
 submitNewContact.addEventListener('click', submitContact);
 closeContactInfoBtn.addEventListener('click', closeContactInfo);
 deleteContactBtn.addEventListener('click', ()=>(deleteContact(this)));
+editBtn.addEventListener('click', editContactInfo);
+
 searchBar.addEventListener('change', checkFilter)
 
+let onEditMode = false;
+function editContactInfo(){
+    if(onEditMode){
+        fnameLabel.disabled = true;
+        pnumLabel.disabled = true;
+        editBtn.innerText = 'Edit';
+        onEditMode = false;
+    }
+    else{
+        fnameLabel.disabled = false;
+        pnumLabel.disabled = false;
+        editBtn.innerText = 'Confirm';
+        onEditMode = true;
+    }
+}
+
 function submitContact(){
-    if(firstNameInput.value && phoneNumberInput.value){
-        createContact(firstNameInput.value,"", phoneNumberInput.value);
-        firstNameInput.value = "";
+    if(fnameInput.value && phoneNumberInput.value){
+        createContact(fnameInput.value,"", phoneNumberInput.value);
+        fnameInput.value = "";
         phoneNumberInput.value = "";
     }
 }
@@ -131,8 +153,6 @@ function displayContacts(filter=""){
             let lname = contactsDB[i].last_name;
             let pnum = contactsDB[i].phone_number;
 
-            let color = randomColor();
-
             nameCell.innerHTML = `<div class="${randomColor()} w-6 h-6 rounded-full inline-block mx-2 my-2"><h1 class="mt-[-3px] ml-2">${fname.slice(0,1)}</h1></div><h1 class="inline w-4">${fname + " " + lname}</h1>`;
             phoneCell.innerHTML = `<h1 class="w-1/2 ">${pnum}</h1>`;
 
@@ -150,23 +170,26 @@ function showContactInfo(rowClasses){
     header.classList.add('hidden');
     contactInfoBlock.classList.remove('hidden');
 
-    let fnameLabel = document.querySelector('.full-name__text');
-
     let name_pnum = rowClasses[0].split('-');
     let fname = name_pnum[0];
     let pnum = name_pnum[1];
 
-    fnameLabel.innerText = `${fname} \n ${pnum}`;
+    fnameLabel.value = `${fname}`;
+    pnumLabel.value = `${pnum}`;
     selectedRow = rowClasses[0];
 }
 
 function closeContactInfo(){
+    onEditMode = false;
+    searchBar.innerText = 'Edit';
+
     mainBlock.classList.remove('hidden');
     header.classList.remove('hidden');
     contactInfoBlock.classList.add('hidden');
+
 }
 
-function deleteContact(contact){
+function deleteContact(){
     let fname = selectedRow.split('-')[0];
     let pnum = selectedRow.split('-')[1];
     contactRow = document.querySelector(`.${selectedRow}`);
@@ -178,7 +201,17 @@ function deleteContact(contact){
         }
     }
     contactRow.remove();
-    localStorage.setItem("contacts_data_base", JSON.stringify(contactsDB));
+
+    contactsDB_tmp = JSON.parse(localStorage.getItem("contacts_data_base"));
+
+    for(i=0;i<contactsDB_tmp.length;i++){
+        if(contactsDB_tmp[i].first_name == fname && contactsDB_tmp[i].phone_number == pnum){
+            contactsDB.splice(i, 1);
+            break;
+        }
+    }
+
+    localStorage.setItem("contacts_data_base", JSON.stringify(contactsDB_tmp));
 }
 
 displayContacts();
