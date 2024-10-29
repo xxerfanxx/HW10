@@ -1,14 +1,18 @@
 let contactsDB = [];
+let selectedRow;
 
 const showCreateBtn = document.querySelector(".show-create-button");
 const backFromCreateBtn = document.querySelector(".back-from-create-button");
 const submitNewContact = document.querySelector(".submit-new-contact-button");
 const closeContactInfoBtn = document.querySelector(".close-contact-info-button");
+const deleteContactBtn = document.querySelector(".delete-contact-button");
 
 let createContactBlock = document.querySelector(".create-contact-block");
 let mainBlock = document.querySelector(".container");
 let header = document.querySelector(".header");
 let contactInfoBlock = document.querySelector(".contact-info-block");
+
+let searchBar = document.querySelector(".search-bar__input");
 
 let firstNameInput = document.querySelector(".fname-input__text");
 let phoneNumberInput = document.querySelector(".phone-input__text");
@@ -17,6 +21,8 @@ showCreateBtn.addEventListener('click', showCreateContactBlock);
 backFromCreateBtn.addEventListener('click', showContainer);
 submitNewContact.addEventListener('click', submitContact);
 closeContactInfoBtn.addEventListener('click', closeContactInfo);
+deleteContactBtn.addEventListener('click', ()=>(deleteContact(this)));
+searchBar.addEventListener('change', checkFilter)
 
 function submitContact(){
     if(firstNameInput.value && phoneNumberInput.value){
@@ -26,13 +32,21 @@ function submitContact(){
     }
 }
 
+function checkFilter(){
+
+    if(searchBar.value){
+        displayContacts(searchBar.value);
+    }
+    else{
+        displayContacts();
+    }
+}
+
 function randomColor() {
     let colorArr = ['bg-red-400','bg-blue-400','bg-orange-400','bg-green-400','bg-yellow-400','bg-purple-400', 'bg-pink-400', 'bg-violet-400'];
 
     return colorArr[(Math.floor(Math.random() * colorArr.length))];
 }
-
-randomColor()
 
 function showCreateContactBlock(){
     createContactBlock.classList.remove('hidden');
@@ -50,6 +64,7 @@ function createContact(fname, lname, pnum){
 
     saveContact(fname, lname, pnum);
     displayContacts();
+    showContainer();
 
 }
 
@@ -76,8 +91,23 @@ function saveContact(fname, lname="", pnum){
     localStorage.setItem("contacts_data_base", JSON.stringify(contactsDB));
 }
 
-function displayContacts(){
+function displayContacts(filter=""){
     contactsDB = JSON.parse(localStorage.getItem("contacts_data_base"));
+
+    if(filter && contactsDB){
+        let filteredArr = [];
+        
+        for(i=0;i<contactsDB.length;i++){
+            for(let key in contactsDB[i]){
+                if(contactsDB[i][key].includes(filter)){
+                    filteredArr.push(contactsDB[i]);
+                }
+            }
+        }
+
+        contactsDB = filteredArr;
+    }
+
     if(!contactsDB){
         contactsDB = [];
     }
@@ -127,12 +157,28 @@ function showContactInfo(rowClasses){
     let pnum = name_pnum[1];
 
     fnameLabel.innerText = `${fname} \n ${pnum}`;
+    selectedRow = rowClasses[0];
 }
 
 function closeContactInfo(){
     mainBlock.classList.remove('hidden');
     header.classList.remove('hidden');
     contactInfoBlock.classList.add('hidden');
+}
+
+function deleteContact(contact){
+    let fname = selectedRow.split('-')[0];
+    let pnum = selectedRow.split('-')[1];
+    contactRow = document.querySelector(`.${selectedRow}`);
+    closeContactInfo();
+    for(i=0;i<contactsDB.length;i++){
+        if(contactsDB[i].first_name == fname && contactsDB[i].phone_number == pnum){
+            contactsDB.splice(i, 1);
+            break;
+        }
+    }
+    contactRow.remove();
+    localStorage.setItem("contacts_data_base", JSON.stringify(contactsDB));
 }
 
 displayContacts();
