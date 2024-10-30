@@ -8,6 +8,28 @@
     <script src="index.js" defer></script>
     <title>Project2</title>
     <style>
+      html, body {
+        width: 100%;
+        height:100%;
+      }
+
+      body {
+          background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+          background-size: 400% 400%;
+          animation: gradient 20s ease infinite;
+      }
+
+      @keyframes gradient {
+          0% {
+              background-position: 0% 50%;
+          }
+          50% {
+              background-position: 100% 50%;
+          }
+          100% {
+              background-position: 0% 50%;
+          }
+      }
       input:focus{
         outline: none;
       }
@@ -15,7 +37,7 @@
   </head>
   <body class="flex flex-col w-full h-full">
     <div class="header w-full">
-      <div class="top-menu flex flex-row w-full h-14 mx-auto justify-between bg-gray-100 shadow-lg">
+      <div class="top-menu flex flex-row w-full h-14 mx-auto justify-between bg-[rgba(255,255,255,0.2)] shadow-lg">
         <div class="right-side flex flex-row mt-[6px] justify-evenly w-[400px]">
           <div class="chocolate-menu rounded-md bg-slate-50 w-10 h-10">
             <button class="chocolate-menu__button w-10 h-10 shadow-md"><img class="w-8 h-8 m-[4px]" src="./Assets/chocolate-menu-icon.png"></button>
@@ -56,15 +78,16 @@
     </div>
     
     <div class="middle-contents flex flex-row">
-      <div class="side-bar w-14 h-[1000px] bg-gray-100" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
+      <div class="side-bar w-14 h-[1000px] bg-[rgba(255,255,255,0.1)]" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
         <div class="side-button flex flex-col items-center">
-          <button class="rounded-md bg-slate-50 shadow-md w-10 h-10 m-[2px] mt-2"><img src="./Assets/logo-icon.png"></button>
+          <button class="rounded-md bg-transparent w-10 h-10 m-[2px] mt-2"><img src="./Assets/logo-icon.png"></button>
           <button class="rounded-md bg-transparent w-10 h-10 m-[2px] mt-2"><img class="w-6 h-6 m-auto" src="./Assets/forward-icon.png"></button>
         </div>
       </div>
   
       <div class="container flex flex-row justify-around mt-16 w-full mx-auto">
-        <div class="to-do w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+
+        <div class="to-do w-[500px] bg-[rgba(255,255,255,0.3)] rounded-md h-fit flex flex-col p-2 box-border">
 
           <div class="top-row flex flex-row justify-between">
             <div class="title">
@@ -76,17 +99,17 @@
             </div>
           </div>
 
-          <div class="task-container mx-auto">
-            <ul class="tasks">
+          <div class="task-container">
+            <ul class="tasks bg-slate-50 h-fit w-fit mx-auto p-2 rounded-md">
             </ul>
           </div>
 
           <div class="add-task">
-            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+            <button class="flex flex-row w-32 h-8 mt-2"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-600">Add a card</h1></button>
           </div>
         </div>
   
-        <div class="Doing w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+        <div class="doing w-[500px] bg-[rgba(255,255,255,0.3)] rounded-md h-fit flex flex-col p-2 box-border">
 
           <div class="top-row flex flex-row justify-between">
             <div class="title">
@@ -99,16 +122,16 @@
           </div>
 
           <div class="task-container mx-auto">
-            <ul class="tasks">
+            <ul class="tasks bg-slate-50 p-2 rounded-md">
             </ul>
           </div>
 
           <div class="add-task">
-            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+            <button class="flex flex-row w-32 h-8 mt-2"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-600">Add a card</h1></button>
           </div>
         </div>
   
-        <div class="done w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+        <div class="done w-[500px] bg-[rgba(255,255,255,0.3)] rounded-md h-fit flex flex-col p-2 box-border">
 
           <div class="top-row flex flex-row justify-between">
             <div class="title">
@@ -121,12 +144,12 @@
           </div>
 
           <div class="task-container mx-auto">
-            <ul class="tasks">
+            <ul class="tasks bg-slate-50 p-2 rounded-md">
             </ul>
           </div>
 
           <div class="add-task">
-            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+            <button class="flex flex-row w-32 h-8 mt-2"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-600">Add a card</h1></button>
           </div>
         </div>
       </div>
