@@ -7,26 +7,130 @@
     <link rel="stylesheet" href="index.css">
     <script src="index.js" defer></script>
     <title>Project2</title>
+    <style>
+      input:focus{
+        outline: none;
+      }
+    </style>
   </head>
-  <body class="flex flex-col h-full">
+  <body class="flex flex-col w-full h-full">
     <div class="header w-full">
-      <div class="flex flex-row top-menu w-full h-14 mx-auto bg-gray-400">
-        <div class="chocolate-menu rounded-md bg-slate-50 w-10 h-10 m-2">
-          <button class="chocolate-menu__button w-8 h-8"><img class="w-8 h-8 m-[4px]" src="./Assets/chocolate-menu-icon.png"></button>
+      <div class="top-menu flex flex-row w-full h-14 mx-auto justify-between bg-gray-100 shadow-lg">
+        <div class="right-side flex flex-row mt-[6px] justify-evenly w-[400px]">
+          <div class="chocolate-menu rounded-md bg-slate-50 w-10 h-10">
+            <button class="chocolate-menu__button w-10 h-10 shadow-md"><img class="w-8 h-8 m-[4px]" src="./Assets/chocolate-menu-icon.png"></button>
+          </div>
+
+          <div class="home rounded-md bg-slate-50 w-10 h-10">
+            <button class="home__button w-10 h-10 shadow-md"><img class="w-8 h-8 m-[4px]" src="./Assets/home-icon.png"></button>
+          </div>
+
+          <div class="search my-auto w-72 mt-[-1px] bg-slate-50 rounded-md flex flex-row border-b-2 border-gray-300 focus-within:border-blue-300">
+            <input class="search-bar h-10 w-64 rounded-md bg-slate-50 pl-2">
+            <button class="search-button w-10 h-10 ml-[4px]"><img class="search-icon w-4 h-4 ml-2" src="./Assets/search-icon.png"></button>
+          </div>
         </div>
 
-        <div class="home rounded-md bg-slate-50 w-10 h-10 m-2">
-          <button class="home__button w-8 h-8"><img class="w-8 h-8 m-[4px]" src="./Assets/home-icon.png"></button>
+        <div class="mid-side mt-2">
+          <h1 class="text-3xl text-gray-300">Erfanllo</h1>
         </div>
 
-        <div class="search my-auto w-10 h-20">
-          <input class="search-bar w-10 h-20" placeholder="Search">
+        <div class="left-side flex flex-row justify-evenly w-[200px] mt-[6px]">
+          <div class="add rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+            <button class="add__button shadow-md"><img class="w-6 h-6 m-2" src="./Assets/add-icon.png"></button>
+          </div>
+
+          <div class="alert rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+            <button class="alert__button shadow-md"><img lass="w-6 h-6" src="./Assets/exclamation-icon.png"></button>
+          </div>
+
+          <div class="notification rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+            <button class="notification__button shadow-md"><img lass="w-6 h-6" src="./Assets/notifications-icon.svg"></button>
+          </div>
+
+          <div class="profile rounded-full bg-slate-50 w-10 h-10 m-[2px] cursor-pointer">
+            <img class="prfile__img w-10 h-10" src="./Assets/profile-icon.png">
+          </div>
         </div>
       </div>
     </div>
     
-    <div class="side-bar w-14 h-[1000px] bg-slate-400">
-      <h2>hello</h2>
+    <div class="middle-contents flex flex-row">
+      <div class="side-bar w-14 h-[1000px] bg-gray-100" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
+        <div class="side-button flex flex-col items-center">
+          <button class="rounded-md bg-slate-50 shadow-md w-10 h-10 m-[2px] mt-2"><img src="./Assets/logo-icon.png"></button>
+          <button class="rounded-md bg-transparent w-10 h-10 m-[2px] mt-2"><img class="w-6 h-6 m-auto" src="./Assets/forward-icon.png"></button>
+        </div>
+      </div>
+  
+      <div class="container flex flex-row justify-around mt-16 w-full mx-auto">
+        <div class="to-do w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+
+          <div class="top-row flex flex-row justify-between">
+            <div class="title">
+              <h1 class="text-2xl">To do</h1>
+            </div>
+
+            <div class="three-dots">
+              <button class="w-10 h-10"><img src=""></button>
+            </div>
+          </div>
+
+          <div class="task-container mx-auto">
+            <ul class="tasks">
+            </ul>
+          </div>
+
+          <div class="add-task">
+            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+          </div>
+        </div>
+  
+        <div class="Doing w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+
+          <div class="top-row flex flex-row justify-between">
+            <div class="title">
+              <h1 class="text-2xl">Doing</h1>
+            </div>
+
+            <div class="three-dots">
+              <button class="w-10 h-10"><img src=""></button>
+            </div>
+          </div>
+
+          <div class="task-container mx-auto">
+            <ul class="tasks">
+            </ul>
+          </div>
+
+          <div class="add-task">
+            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+          </div>
+        </div>
+  
+        <div class="done w-[500px] bg-gray-50 rounded-md h-fit flex flex-col p-2">
+
+          <div class="top-row flex flex-row justify-between">
+            <div class="title">
+              <h1 class="text-2xl">Done</h1>
+            </div>
+
+            <div class="three-dots">
+              <button class="w-10 h-10"><img src=""></button>
+            </div>
+          </div>
+
+          <div class="task-container mx-auto">
+            <ul class="tasks">
+            </ul>
+          </div>
+
+          <div class="add-task">
+            <button class="flex flex-row w-32 h-8"><img class="w-4 h-4 mt-2 mr-2 opacity-50" src="./Assets/add-icon.png"><h1 class="mt-[2px] text-lg text-gray-500">Add a card</h1></button>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </body>
 </html>
