@@ -1,4 +1,5 @@
 let database = {to_do:[],doing:[],done:[]};
+let id = 0;
 
 let toDoContainer = document.querySelector('.to-do');
 let doingContainer = document.querySelector('.doing');
@@ -23,8 +24,11 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 dueDate,
                 taskDoer,
                 tags,
-                color
+                color,
+                id
             });
+
+            id++;
 
             break;
         
@@ -37,8 +41,11 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 dueDate,
                 taskDoer,
                 tags,
-                color
+                color,
+                id
             });
+
+            id++;
 
             break;
 
@@ -51,8 +58,11 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 dueDate,
                 taskDoer,
                 tags,
-                color
+                color,
+                id
             });
+
+            id++;
 
             break;
         
@@ -60,6 +70,8 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
             console.log('Error in adding the task(invalid type');
             break;
     }
+
+    displayCards();
 }
 
 function displayCards(){
@@ -74,16 +86,16 @@ function displayCards(){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.to_do[i].tags[j]}</li>`;
         }
         
-        toDoTasksContainer.innerHTML += `<li>
+        toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id}">
                 <div class="task w-96 mx-auto ${database.to_do[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
-                    <button class="edit-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
+                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
                     <h1 class="task__title text-center text-2xl">${database.to_do[i].title}</h1>
-                    <button class="delete-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                   </div>
 
                   <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
-                    <p class="task__details w-full">${database.to_do[i].description}</p>
+                    <p class="task__details w-full max-w-96 break-words">${database.to_do[i].description}</p>
                   </div>
 
                   <div class="task__tags">
@@ -108,16 +120,16 @@ function displayCards(){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`;
         }
         
-        doneTasksContainer.innerHTML += `<li>
+        doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
                 <div class="task w-96 ${database.done[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
-                    <button class="edit-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
+                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
                     <h1 class="task__title text-center text-2xl">${database.done[i].title}</h1>
-                    <button class="delete-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                   </div>
 
                   <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
-                    <p class="task__details w-full">${database.done[i].description}</p>
+                    <p class="task__details w-full max-w-96 break-words">${database.done[i].description}</p>
                   </div>
 
                   <div class="task__tags">
@@ -142,16 +154,16 @@ function displayCards(){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.doing[i].tags[j]}</li>`;
         }
         
-        doingTasksContainer.innerHTML += `<li>
+        doingTasksContainer.innerHTML += `<li class="task-id-${database.doing[i].id}">
                 <div class="task w-96 ${database.doing[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
-                    <button class="edit-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
+                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
                     <h1 class="task__title text-center text-2xl">${database.doing[i].title}</h1>
-                    <button class="delete-task__button w-6 h-6"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                   </div>
 
                   <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
-                    <p class="task__details w-full">${database.doing[i].description}</p>
+                    <p class="task__details w-full max-w-96 break-words">${database.doing[i].description}</p>
                   </div>
 
                   <div class="task__tags">
@@ -170,10 +182,101 @@ function displayCards(){
     }
 }
 
+function editTask(id,type){
+    let selectedTask = document.querySelector(`.task-id-${id}`);
+    let selectedTaskDetails = selectedTask.querySelector('.task__details');
+    let selectedTaskEditBtn = selectedTask.querySelector('.edit-task__button');
+    let selectedTaskTitle = document.querySelector('.task__title')
+
+    if (selectedTask.classList.contains('on-edit-mode')){
+        selectedTask.classList.remove('on-edit-mode');
+        selectedTaskDetails.contentEditable = "false";
+        selectedTaskTitle.contentEditable = "false";
+        selectedTaskEditBtn.innerHTML = `<img class="w-6 h-6" src="./Assets/edit-icon.png"></img>`;
+
+        switch(type){
+            case 'to_do':
+                for(i = 0; i < database.to_do.length; i++){
+                    if(database.to_do[i].id == id){
+                        database.to_do[i].description = selectedTaskDetails.innerText;
+                        database.to_do[i].title = selectedTaskTitle.innerText;
+                        break;
+                    }
+                }
+                break;
+            
+            case 'doing':
+                for(i = 0; i < database.doing.length; i++){
+                    if(database.doing[i].id == id){
+                        database.doing[i].description = selectedTaskDetails.innerText;
+                        database.doing[i].title = selectedTaskTitle.innerText;
+                        break;
+                    }
+                }
+                break;
+            
+            case 'done':
+                for(i = 0; i < database.done.length; i++){
+                    if(database.done[i].id == id){
+                        database.done[i].description = selectedTaskDetails.innerText;
+                        database.done[i].title = selectedTaskTitle.innerText;
+                        break;
+                    }
+                }
+                break;
+
+        }
+        console.log(database)
+    }
+    else{
+        selectedTask.classList.add('on-edit-mode');
+        selectedTaskDetails.contentEditable = "true";
+        selectedTaskEditBtn.innerHTML = '<h1 class="text-blue-300 w-20">edit mode</h1>';
+        selectedTaskTitle.contentEditable = "true";
+    }
+}
+
+function deleteTask(id,type){
+    let selectedTask = document.querySelector(`.task-id-${id}`);
+
+    switch(type){
+        case 'to_do':
+            toDoTasksContainer.removeChild(selectedTask);
+            for(i = 0; i < database.to_do.length; i++){
+                if(database.to_do[i].id == id){
+                    database.to_do.splice(i,1);
+                    break;
+                }
+            }
+            break;
+        
+        case 'doing':
+            doingTasksContainer.removeChild(selectedTask);
+            for(i = 0; i < database.doing.length; i++){
+                if(database.doing[i].id == id){
+                    database.doing.splice(i,1);
+                    break;
+                }
+            }
+            break;
+        
+        case 'done':
+            doneTasksContainer.removeChild(selectedTask);
+            for(i = 0; i < database.done.length; i++){
+                if(database.done[i].id == id){
+                    database.done.splice(i,1);
+                    break;
+                }
+            }
+            break;
+    }
+}
+
 createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('doing','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('done','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('done','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-console.log(database)
-displayCards();
+createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])

@@ -33,22 +33,38 @@
       input:focus{
         outline: none;
       }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #c0c0c0; 
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #919191; 
+      }
     </style>
   </head>
   <body class="flex flex-col w-full h-full">
     <div class="header w-full">
       <div class="top-menu flex flex-row w-full h-14 mx-auto justify-between bg-[rgba(255,255,255,0.2)] shadow-lg">
         <div class="right-side flex flex-row mt-[6px] justify-evenly w-[400px]">
-          <div class="chocolate-menu rounded-md bg-slate-50 w-10 h-10">
+          <div class="chocolate-menu rounded-md bg-[rgba(255,255,255,0.3)] w-10 h-10">
             <button class="chocolate-menu__button w-10 h-10 shadow-md"><img class="w-8 h-8 m-[4px]" src="./Assets/chocolate-menu-icon.png"></button>
           </div>
 
-          <div class="home rounded-md bg-slate-50 w-10 h-10">
+          <div class="home rounded-md bg-[rgba(255,255,255,0.3)] w-10 h-10">
             <button class="home__button w-10 h-10 shadow-md"><img class="w-8 h-8 m-[4px]" src="./Assets/home-icon.png"></button>
           </div>
 
-          <div class="search my-auto w-72 mt-[-1px] bg-slate-50 rounded-md flex flex-row border-b-2 border-gray-300 focus-within:border-blue-300">
-            <input class="search-bar h-10 w-64 rounded-md bg-slate-50 pl-2">
+          <div class="search my-auto w-72 mb-3 rounded-sm bg-[rgba(255,255,255,0.3)] flex flex-row">
+            <input class="search-bar h-10 w-64 rounded-md bg-transparent pl-2">
             <button class="search-button w-10 h-10 ml-[4px]"><img class="search-icon w-4 h-4 ml-2" src="./Assets/search-icon.png"></button>
           </div>
         </div>
@@ -58,15 +74,15 @@
         </div>
 
         <div class="left-side flex flex-row justify-evenly w-[200px] mt-[6px]">
-          <div class="add rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+          <div class="add rounded-md bg-[rgba(255,255,255,0.3)] w-10 h-10 m-[2px]">
             <button class="add__button shadow-md"><img class="w-6 h-6 m-2" src="./Assets/add-icon.png"></button>
           </div>
 
-          <div class="alert rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+          <div class="alert rounded-md bg-[rgba(255,255,255,0.3)] w-10 h-10 m-[2px]">
             <button class="alert__button shadow-md"><img lass="w-6 h-6" src="./Assets/exclamation-icon.png"></button>
           </div>
 
-          <div class="notification rounded-md bg-slate-50 w-10 h-10 m-[2px]">
+          <div class="notification rounded-md bg-[rgba(255,255,255,0.3)] w-10 h-10 m-[2px]">
             <button class="notification__button shadow-md"><img lass="w-6 h-6" src="./Assets/notifications-icon.svg"></button>
           </div>
 
@@ -78,7 +94,7 @@
     </div>
     
     <div class="middle-contents flex flex-row">
-      <div class="side-bar w-14 h-[1000px] bg-[rgba(255,255,255,0.1)]" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
+      <div class="side-bar w-14 h-[830px] bg-[rgba(88,88,88,0.2)]" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
         <div class="side-button flex flex-col items-center">
           <button class="rounded-md bg-transparent w-10 h-10 m-[2px] mt-2"><img src="./Assets/logo-icon.png"></button>
           <button class="rounded-md bg-transparent w-10 h-10 m-[2px] mt-2"><img class="w-6 h-6 m-auto" src="./Assets/forward-icon.png"></button>
@@ -100,7 +116,7 @@
           </div>
 
           <div class="task-container">
-            <ul class="tasks bg-slate-50 h-fit w-fit mx-auto p-2 rounded-md">
+            <ul class="tasks bg-slate-50 h-fit w-fit mx-auto p-2 rounded-md max-h-[600px] overflow-y-scroll">
             </ul>
           </div>
 
@@ -122,7 +138,7 @@
           </div>
 
           <div class="task-container mx-auto">
-            <ul class="tasks bg-slate-50 p-2 rounded-md">
+            <ul class="tasks bg-slate-50 p-2 rounded-md max-h-[600px] overflow-y-scroll">
             </ul>
           </div>
 
@@ -144,7 +160,7 @@
           </div>
 
           <div class="task-container mx-auto">
-            <ul class="tasks bg-slate-50 p-2 rounded-md">
+            <ul class="tasks bg-slate-50 p-2 rounded-md max-h-[600px] overflow-y-scroll">
             </ul>
           </div>
 
