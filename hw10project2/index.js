@@ -8,6 +8,7 @@ let doneContainer = document.querySelector('.done');
 let toDoTasksContainer = toDoContainer.querySelector('.tasks');
 let doingTasksContainer = doingContainer.querySelector('.tasks');
 let doneTasksContainer = doneContainer.querySelector('.tasks');
+let overlayBlock = document.querySelector('.overlay');
 
 
 function createNewTask(type, title, description, creationDate, dueDate, taskDoer, tags = []){
@@ -86,11 +87,11 @@ function displayCards(){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.to_do[i].tags[j]}</li>`;
         }
         
-        toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id}">
+        toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
                 <div class="task w-96 mx-auto ${database.to_do[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
                     <button class="edit-task__button w-6 h-6" onclick="editTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
-                    <h1 class="task__title text-center text-2xl">${database.to_do[i].title}</h1>
+                    <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].title}</h1>
                     <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                   </div>
 
@@ -105,43 +106,11 @@ function displayCards(){
                   </div>
 
                   <div class="task__footer flex flex-row justify-between mt-2">
-                    <h3 class="task__doer text-xs">${database.to_do[i].taskDoer}</h3>
-                    <h3 class="task__creation-date text-xs">created: ${database.to_do[i].creationDate}</h3>
-                    <h3 class="task__due-date text-xs">due: ${database.to_do[i].dueDate}</h3>
-                  </div>
-                </div>
-              </li>`
-    }
-
-    for(i = 0; i < database.done.length; i++){
-
-        let tagsHTML = "";
-        for(j = 0; j < database.done[i].tags.length; j++){
-            tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`;
-        }
-        
-        doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
-                <div class="task w-96 ${database.done[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
-                  <div class="top-row flex flex-row justify-between">
-                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
-                    <h1 class="task__title text-center text-2xl">${database.done[i].title}</h1>
-                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
-                  </div>
-
-                  <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
-                    <p class="task__details w-full max-w-96 break-words">${database.done[i].description}</p>
-                  </div>
-
-                  <div class="task__tags">
-                    <ul class="tags flex flex-row w-full my-2">
-                        ${tagsHTML}
-                    </ul>
-                  </div>
-
-                  <div class="task__footer flex flex-row justify-between mt-2">
-                    <h3 class="task__doer text-xs">${database.done[i].taskDoer}</h3>
-                    <h3 class="task__creation-date text-xs">created: ${database.done[i].creationDate}</h3>
-                    <h3 class="task__due-date text-xs">due: ${database.done[i].dueDate}</h3>
+                    <h3 class="task__doer text-xs max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].taskDoer}</h3>
+                    <div class="task__dates flex flex-row">
+                        <h3 class="text-xs">created:</h3><h3 class="task__creation-date text-xs mr-10 max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].creationDate}</h3>
+                        <h3 class="text-xs">due:</h3><h3 class="task__due-date text-xs max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].dueDate}</h3>
+                    </div>
                   </div>
                 </div>
               </li>`
@@ -158,7 +127,7 @@ function displayCards(){
                 <div class="task w-96 ${database.doing[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
                     <button class="edit-task__button w-6 h-6" onclick="editTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
-                    <h1 class="task__title text-center text-2xl">${database.doing[i].title}</h1>
+                    <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.doing[i].title}</h1>
                     <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                   </div>
 
@@ -173,9 +142,47 @@ function displayCards(){
                   </div>
 
                   <div class="task__footer flex flex-row justify-between mt-2">
-                    <h3 class="task__doer text-xs">${database.doing[i].taskDoer}</h3>
-                    <h3 class="task__creation-date text-xs">created: ${database.doing[i].creationDate}</h3>
-                    <h3 class="task__due-date text-xs">due: ${database.doing[i].dueDate}</h3>
+                    <h3 class="task__doer text-xs max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.doing[i].taskDoer}</h3>
+                    <div class="task__dates flex flex-row">
+                        <h3 class="text-xs">created:</h3><h3 class="task__creation-date text-xs mr-10 max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.doing[i].creationDate}</h3>
+                        <h3 class="text-xs">due:</h3><h3 class="task__due-date text-xs max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.doing[i].dueDate}</h3>
+                    </div>
+                  </div>
+                </div>
+              </li>`
+    }
+
+    for(i = 0; i < database.done.length; i++){
+
+        let tagsHTML = "";
+        for(j = 0; j < database.done[i].tags.length; j++){
+            tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`;
+        }
+        
+        doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
+                <div class="task w-96 ${database.done[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
+                  <div class="top-row flex flex-row justify-between">
+                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
+                    <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.done[i].title}</h1>
+                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                  </div>
+
+                  <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
+                    <p class="task__details w-full max-w-96 break-words">${database.done[i].description}</p>
+                  </div>
+
+                  <div class="task__tags">
+                    <ul class="tags flex flex-row w-full my-2">
+                        ${tagsHTML}
+                    </ul>
+                  </div>
+
+                  <div class="task__footer flex flex-row justify-between mt-2">
+                    <h3 class="task__doer text-xs max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.done[i].taskDoer}</h3>
+                    <div class="task__dates flex flex-row">
+                        <h3 class="text-xs">created:</h3><h3 class="task__creation-date text-xs mr-10 max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.done[i].creationDate}</h3>
+                        <h3 class="text-xs">due:</h3><h3 class="task__due-date text-xs max-w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.done[i].dueDate}</h3>
+                    </div>
                   </div>
                 </div>
               </li>`
@@ -186,12 +193,19 @@ function editTask(id,type){
     let selectedTask = document.querySelector(`.task-id-${id}`);
     let selectedTaskDetails = selectedTask.querySelector('.task__details');
     let selectedTaskEditBtn = selectedTask.querySelector('.edit-task__button');
-    let selectedTaskTitle = document.querySelector('.task__title')
+    let selectedTaskTitle = selectedTask.querySelector('.task__title');
+    let selectedTaskDue = selectedTask.querySelector('.task__due-date');
+    let selectedTaskDoer = selectedTask.querySelector('.task__doer');
+    let selectedTaskCreationDate = selectedTask.querySelector('.task__creation-date');
 
     if (selectedTask.classList.contains('on-edit-mode')){
         selectedTask.classList.remove('on-edit-mode');
         selectedTaskDetails.contentEditable = "false";
         selectedTaskTitle.contentEditable = "false";
+        selectedTaskDue.contentEditable = "false";
+        selectedTaskDoer.contentEditable = "false";
+        selectedTaskCreationDate.contentEditable = "false";
+
         selectedTaskEditBtn.innerHTML = `<img class="w-6 h-6" src="./Assets/edit-icon.png"></img>`;
 
         switch(type){
@@ -227,12 +241,27 @@ function editTask(id,type){
 
         }
         console.log(database)
+        selectedTask.classList.remove('fixed');
+        selectedTask.classList.remove('top-1/3');
+        selectedTask.classList.remove('left-[40%]');
+        selectedTask.classList.remove('z-50');
+        selectedTask.classList.remove('scale-150');
+        overlayBlock.classList.add('hidden');
     }
     else{
         selectedTask.classList.add('on-edit-mode');
         selectedTaskDetails.contentEditable = "true";
         selectedTaskEditBtn.innerHTML = '<h1 class="text-blue-300 w-20">edit mode</h1>';
         selectedTaskTitle.contentEditable = "true";
+        selectedTaskDue.contentEditable = "true";
+        selectedTaskDoer.contentEditable = "true";
+        selectedTaskCreationDate.contentEditable = "true";
+        selectedTask.classList.add('fixed');
+        selectedTask.classList.add('top-1/3');
+        selectedTask.classList.add('left-[40%]');
+        selectedTask.classList.add('z-50');
+        selectedTask.classList.add('scale-150');
+        overlayBlock.classList.remove('hidden');
     }
 }
 
@@ -270,6 +299,13 @@ function deleteTask(id,type){
             }
             break;
     }
+
+    selectedTask.classList.remove('fixed');
+    selectedTask.classList.remove('top-1/3');
+    selectedTask.classList.remove('left-[40%]');
+    selectedTask.classList.remove('z-50');
+    selectedTask.classList.remove('scale-150');
+    overlayBlock.classList.add('hidden');
 }
 
 createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
