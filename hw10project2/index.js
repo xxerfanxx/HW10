@@ -101,11 +101,13 @@ function displayCards(){
 
     for(i = 0; i < database.to_do.length; i++){
 
-        let tagsString = '';
+        let tagsString = "";
         let tagsHTML = "";
         for(j = 0; j < database.to_do[i].tags.length; j++){
-            tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.to_do[i].tags[j]}</li>`;
-            tagsString += database.to_do[i].tags[j] + ' ';
+            if(database.to_do[i].tags[j].trim()){
+                tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.to_do[i].tags[j]}</li>`; 
+                tagsString += database.to_do[i].tags[j] + ' ';
+            }
         }
         
         toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
@@ -145,11 +147,13 @@ function displayCards(){
 
     for(i = 0; i < database.doing.length; i++){
 
-        let tagsString;
+        let tagsString = "";
         let tagsHTML = "";
         for(j = 0; j < database.doing[i].tags.length; j++){
-            tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.doing[i].tags[j]}</li>`;
-            tagsString += database.doing[i].tags[j] + ' ';
+            if(database.doing[i].tags[j].trim()){
+                tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.doing[i].tags[j]}</li>`; 
+                tagsString += database.doing[i].tags[j] + ' ';
+            }
         }
         
         doingTasksContainer.innerHTML += `<li class="task-id-${database.doing[i].id}">
@@ -198,11 +202,13 @@ function displayCards(){
 
     for(i = 0; i < database.done.length; i++){
 
-        let tagsString;
+        let tagsString = "";
         let tagsHTML = "";
         for(j = 0; j < database.done[i].tags.length; j++){
-            tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`;
-            tagsString += database.done[i].tags[j] + ' ';
+            if(database.done[i].tags[j].trim()){
+                tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`; 
+                tagsString += database.done[i].tags[j] + ' ';
+            }
         }
         
         doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
@@ -305,9 +311,14 @@ function editTask(id,type){
     let selectedTaskDue = selectedTask.querySelector('.task__due-date');
     let selectedTaskDoer = selectedTask.querySelector('.task__doer');
     let selectedTaskCreationDate = selectedTask.querySelector('.task__creation-date');
-    let tagsInput =selectedTask.querySelector('.tag__input');
+    let tagsInput = selectedTask.querySelector('.tag__input');
 
     let tagsArr = tagsInput.value.split(' ');
+    for(i = 0; i < tagsArr.length ; i++){
+        if(!tagsArr[i] || tagsArr == " "){
+            tagsArr.splice(i,1);
+        }
+    }
 
     if (selectedTask.classList.contains('on-edit-mode')){
         selectedTask.classList.remove('on-edit-mode');
@@ -343,7 +354,7 @@ function editTask(id,type){
                         database.doing[i].dueDate = selectedTaskDue.innerText;
                         database.doing[i].creationDate = selectedTaskCreationDate.innerText;
                         database.doing[i].taskDoer = selectedTaskDoer.innerText;
-                        database.to_do[i].tags = tagsArr;
+                        database.doing[i].tags = tagsArr;
                         break;
                     }
                 }
@@ -357,7 +368,7 @@ function editTask(id,type){
                         database.done[i].dueDate = selectedTaskDue.innerText;
                         database.done[i].creationDate = selectedTaskCreationDate.innerText;
                         database.done[i].taskDoer = selectedTaskDoer.innerText;
-                        database.to_do[i].tags = tagsArr;
+                        database.done[i].tags = tagsArr;
                         break;
                     }
                 }
