@@ -101,9 +101,11 @@ function displayCards(){
 
     for(i = 0; i < database.to_do.length; i++){
 
+        let tagsString = '';
         let tagsHTML = "";
         for(j = 0; j < database.to_do[i].tags.length; j++){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.to_do[i].tags[j]}</li>`;
+            tagsString += database.to_do[i].tags[j] + ' ';
         }
         
         toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
@@ -119,9 +121,10 @@ function displayCards(){
                   </div>
 
                     <div class="task__tags">
-                        <ul class="tags flex flex-row w-full my-2">
+                        <ul class="tags flex flex-row w-full my-4 p-2 overflow-x-auto">
                             ${tagsHTML}
                         </ul>
+                        <input class="tag__input w-full hidden" placeholder="tags(seperated by space)" value="${tagsString}">
                     </div>
 
                     <div class="task__footer flex flex-row justify-between mt-2">
@@ -142,9 +145,11 @@ function displayCards(){
 
     for(i = 0; i < database.doing.length; i++){
 
+        let tagsString;
         let tagsHTML = "";
         for(j = 0; j < database.doing[i].tags.length; j++){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.doing[i].tags[j]}</li>`;
+            tagsString += database.doing[i].tags[j] + ' ';
         }
         
         doingTasksContainer.innerHTML += `<li class="task-id-${database.doing[i].id}">
@@ -160,9 +165,10 @@ function displayCards(){
                     </div>
 
                     <div class="task__tags">
-                        <ul class="tags flex flex-row w-full my-2">
+                        <ul class="tags flex flex-row w-full my-4 p-2 overflow-x-auto">
                             ${tagsHTML}
                         </ul>
+                        <input class="tag__input w-full hidden" placeholder="tags(seperated by space)" value="${tagsString}">
                     </div>
 
                     <div class="task__footer flex flex-row justify-between mt-2">
@@ -192,9 +198,11 @@ function displayCards(){
 
     for(i = 0; i < database.done.length; i++){
 
+        let tagsString;
         let tagsHTML = "";
         for(j = 0; j < database.done[i].tags.length; j++){
             tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`;
+            tagsString += database.done[i].tags[j] + ' ';
         }
         
         doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
@@ -210,9 +218,10 @@ function displayCards(){
                     </div>
 
                     <div class="task__tags">
-                        <ul class="tags flex flex-row w-full my-2">
+                        <ul class="tags flex flex-row w-full my-4 p-2 overflow-x-auto">
                             ${tagsHTML}
                         </ul>
+                        <input class="tag__input w-full hidden" placeholder="tags(seperated by space)" value="${tagsString}">
                     </div>
 
                     <div class="task__footer flex flex-row justify-between mt-2">
@@ -234,7 +243,6 @@ function displayCards(){
 }
 
 function transferTaskNext(id,type){
-    let selectedTask = document.querySelector(`.task-id-${id}`);
 
     switch(type){
         case 'to_do':
@@ -263,7 +271,6 @@ function transferTaskNext(id,type){
 }
 
 function transferTaskBack(id,type){
-    let selectedTask = document.querySelector(`.task-id-${id}`);
 
     switch(type){
         case 'doing':
@@ -298,6 +305,9 @@ function editTask(id,type){
     let selectedTaskDue = selectedTask.querySelector('.task__due-date');
     let selectedTaskDoer = selectedTask.querySelector('.task__doer');
     let selectedTaskCreationDate = selectedTask.querySelector('.task__creation-date');
+    let tagsInput =selectedTask.querySelector('.tag__input');
+
+    let tagsArr = tagsInput.value.split(' ');
 
     if (selectedTask.classList.contains('on-edit-mode')){
         selectedTask.classList.remove('on-edit-mode');
@@ -306,6 +316,7 @@ function editTask(id,type){
         selectedTaskDue.contentEditable = "false";
         selectedTaskDoer.contentEditable = "false";
         selectedTaskCreationDate.contentEditable = "false";
+        tagsInput.classList.add('hidden');
 
         selectedTaskEditBtn.innerHTML = `<img class="w-6 h-6" src="./Assets/edit-icon.png"></img>`;
 
@@ -318,6 +329,7 @@ function editTask(id,type){
                         database.to_do[i].dueDate = selectedTaskDue.innerText;
                         database.to_do[i].creationDate = selectedTaskCreationDate.innerText;
                         database.to_do[i].taskDoer = selectedTaskDoer.innerText;
+                        database.to_do[i].tags = tagsArr;
                         break;
                     }
                 }
@@ -331,6 +343,7 @@ function editTask(id,type){
                         database.doing[i].dueDate = selectedTaskDue.innerText;
                         database.doing[i].creationDate = selectedTaskCreationDate.innerText;
                         database.doing[i].taskDoer = selectedTaskDoer.innerText;
+                        database.to_do[i].tags = tagsArr;
                         break;
                     }
                 }
@@ -344,19 +357,21 @@ function editTask(id,type){
                         database.done[i].dueDate = selectedTaskDue.innerText;
                         database.done[i].creationDate = selectedTaskCreationDate.innerText;
                         database.done[i].taskDoer = selectedTaskDoer.innerText;
+                        database.to_do[i].tags = tagsArr;
                         break;
                     }
                 }
                 break;
 
         }
-        console.log(database)
         selectedTask.classList.remove('fixed');
         selectedTask.classList.remove('top-1/3');
         selectedTask.classList.remove('left-[40%]');
         selectedTask.classList.remove('z-50');
         selectedTask.classList.remove('scale-150');
         overlayBlock.classList.add('hidden');
+
+        displayCards();
     }
     else{
         selectedTask.classList.add('on-edit-mode');
@@ -371,6 +386,7 @@ function editTask(id,type){
         selectedTask.classList.add('left-[40%]');
         selectedTask.classList.add('z-50');
         selectedTask.classList.add('scale-150');
+        tagsInput.classList.remove('hidden');
         overlayBlock.classList.remove('hidden');
     }
 }
@@ -419,10 +435,10 @@ function deleteTask(id,type){
 }
 
 createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('doing','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('done','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('done','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('doing','second task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('done','third task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('done','fourth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','fifth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','sixth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','seventh task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','eightth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
