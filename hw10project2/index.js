@@ -10,6 +10,25 @@ let doingTasksContainer = doingContainer.querySelector('.tasks');
 let doneTasksContainer = doneContainer.querySelector('.tasks');
 let overlayBlock = document.querySelector('.overlay');
 
+function showEmptyCard(type){
+    switch(type){
+        case 'to_do':
+            createNewTask('to_do','title','description','cdate','due','doer',['tag']);
+            editTask(id-1,'to_do');
+            break;
+        
+        case 'doing':
+            createNewTask('doing','title','description','cdate','due','doer',['tag']);
+            editTask(id-1,'doing');
+            break;
+
+        case 'done':
+            createNewTask('done','title','description','cdate','due','doer',['tag']);
+            editTask(id-1,'done');
+            break;
+    }
+}
+
 
 function createNewTask(type, title, description, creationDate, dueDate, taskDoer, tags = []){
     let colors = ['bg-red-200','bg-blue-200','bg-green-200','bg-pink-200','bg-purple-200','bg-yellow-200'];
@@ -296,6 +315,9 @@ function editTask(id,type){
                     if(database.to_do[i].id == id){
                         database.to_do[i].description = selectedTaskDetails.innerText;
                         database.to_do[i].title = selectedTaskTitle.innerText;
+                        database.to_do[i].dueDate = selectedTaskDue.innerText;
+                        database.to_do[i].creationDate = selectedTaskCreationDate.innerText;
+                        database.to_do[i].taskDoer = selectedTaskDoer.innerText;
                         break;
                     }
                 }
@@ -306,6 +328,9 @@ function editTask(id,type){
                     if(database.doing[i].id == id){
                         database.doing[i].description = selectedTaskDetails.innerText;
                         database.doing[i].title = selectedTaskTitle.innerText;
+                        database.doing[i].dueDate = selectedTaskDue.innerText;
+                        database.doing[i].creationDate = selectedTaskCreationDate.innerText;
+                        database.doing[i].taskDoer = selectedTaskDoer.innerText;
                         break;
                     }
                 }
@@ -316,6 +341,9 @@ function editTask(id,type){
                     if(database.done[i].id == id){
                         database.done[i].description = selectedTaskDetails.innerText;
                         database.done[i].title = selectedTaskTitle.innerText;
+                        database.done[i].dueDate = selectedTaskDue.innerText;
+                        database.done[i].creationDate = selectedTaskCreationDate.innerText;
+                        database.done[i].taskDoer = selectedTaskDoer.innerText;
                         break;
                     }
                 }
@@ -333,7 +361,7 @@ function editTask(id,type){
     else{
         selectedTask.classList.add('on-edit-mode');
         selectedTaskDetails.contentEditable = "true";
-        selectedTaskEditBtn.innerHTML = '<h1 class="text-blue-300 w-20">edit mode</h1>';
+        selectedTaskEditBtn.innerHTML = '<h1 class="text-blue-500 w-20">Confirm</h1>';
         selectedTaskTitle.contentEditable = "true";
         selectedTaskDue.contentEditable = "true";
         selectedTaskDoer.contentEditable = "true";
