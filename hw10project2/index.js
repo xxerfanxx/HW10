@@ -91,13 +91,26 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
             break;
     }
 
-    displayCards();
+    if(document.querySelector('.search-bar').value){
+        displayCards(document.querySelector('.search-bar').value);
+    }
+    else{
+        displayCards();
+    }
 }
 
-function displayCards(){
+function setFilter(){
+    let filter = document.querySelector('.search-bar').value;
+    displayCards(filter);
+}
+
+function displayCards(filter = ""){
     toDoTasksContainer.innerHTML = "";
     doingTasksContainer.innerHTML = "";
     doneTasksContainer.innerHTML = "";
+
+
+    let database_backUp = structuredClone(database);
 
     for(i = 0; i < database.to_do.length; i++){
 
@@ -109,8 +122,21 @@ function displayCards(){
                 tagsString += database.to_do[i].tags[j] + ' ';
             }
         }
-        
-        toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
+
+        if(filter){
+            let database_tmp1 = {to_do : []};
+            for(c = 0; c < database.to_do.length ;c++){
+                for(let key in database.to_do[c]){
+                    if(key != 'id' && key != 'color' && database.to_do[c][key].includes(filter)){
+                        database_tmp1.to_do.push(database.to_do[c]);
+                        break;
+                    }
+                }
+            }
+            database.to_do = database_tmp1.to_do;
+        }
+        if(database.to_do[i]){
+            toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
                 <div class="task w-96 mx-auto ${database.to_do[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                   <div class="top-row flex flex-row justify-between">
                     <button class="edit-task__button w-6 h-6" onclick="editTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
@@ -143,7 +169,11 @@ function displayCards(){
                     </div>
                 </div>
               </li>`
+        }
+        
     }
+
+    database = structuredClone(database_backUp);
 
     for(i = 0; i < database.doing.length; i++){
 
@@ -155,8 +185,22 @@ function displayCards(){
                 tagsString += database.doing[i].tags[j] + ' ';
             }
         }
+
+        if(filter){
+            let database_tmp2 = {doing : []};
+            for(c = 0; c < database.doing.length ;c++){
+                for(let key in database.doing[c]){
+                    if(key != 'id' && key != 'color' && database.doing[c][key].includes(filter)){
+                        database_tmp2.doing.push(database.doing[c]);
+                        break;
+                    }
+                }
+            }
+            database.doing = database_tmp2.doing;
+        }
         
-        doingTasksContainer.innerHTML += `<li class="task-id-${database.doing[i].id}">
+        if(database.doing[i]){
+            doingTasksContainer.innerHTML += `<li class="task-id-${database.doing[i].id}">
                 <div class="task w-96 ${database.doing[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                     <div class="top-row flex flex-row justify-between">
                         <button class="edit-task__button w-6 h-6" onclick="editTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
@@ -198,6 +242,8 @@ function displayCards(){
                     </div>
                 </div>
               </li>`
+        }
+        
     }
 
     for(i = 0; i < database.done.length; i++){
@@ -210,8 +256,22 @@ function displayCards(){
                 tagsString += database.done[i].tags[j] + ' ';
             }
         }
+
+        if(filter){
+            let database_tmp3 = {done : []};
+            for(c = 0; c < database.done.length ;c++){
+                for(let key in database.done[c]){
+                    if(key != 'id' && key != 'color' && database.done[c][key].includes(filter)){
+                        database_tmp3.done.push(database.done[c]);
+                        break;
+                    }
+                }
+            }
+            database.done = database_tmp3.done;
+        }
         
-        doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
+        if(database.done[i]){
+            doneTasksContainer.innerHTML += `<li class="task-id-${database.done[i].id}">
                 <div class="task w-96 ${database.done[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
                     <div class="top-row flex flex-row justify-between">
                         <button class="edit-task__button w-6 h-6" onclick="editTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
@@ -245,7 +305,10 @@ function displayCards(){
                     </div>
                 </div>
               </li>`
+        }
+        
     }
+    database = structuredClone(database_backUp);
 }
 
 function transferTaskNext(id,type){
@@ -382,7 +445,12 @@ function editTask(id,type){
         selectedTask.classList.remove('scale-150');
         overlayBlock.classList.add('hidden');
 
-        displayCards();
+        if(document.querySelector('.search-bar').value){
+            displayCards(document.querySelector('.search-bar').value);
+        }
+        else{
+            displayCards();
+        }
     }
     else{
         selectedTask.classList.add('on-edit-mode');
