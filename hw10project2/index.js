@@ -130,7 +130,7 @@ function displayCards(filter = ""){
             let database_tmp1 = {to_do : []};
             for(c = 0; c < database.to_do.length ;c++){
                 for(let key in database.to_do[c]){
-                    if(key != 'id' && key != 'color' && database.to_do[c][key].includes(filter)){
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.to_do[c][key].includes(filter)){
                         database_tmp1.to_do.push(database.to_do[c]);
                         break;
                     }
@@ -198,7 +198,7 @@ function displayCards(filter = ""){
             let database_tmp2 = {doing : []};
             for(c = 0; c < database.doing.length ;c++){
                 for(let key in database.doing[c]){
-                    if(key != 'id' && key != 'color' && database.doing[c][key].includes(filter)){
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.doing[c][key].includes(filter)){
                         database_tmp2.doing.push(database.doing[c]);
                         break;
                     }
