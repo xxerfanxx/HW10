@@ -30,7 +30,7 @@ function showEmptyCard(type){
 }
 
 
-function createNewTask(type, title, description, creationDate, dueDate, taskDoer, tags = []){
+function createNewTask(type, title, description, creationDate, dueDate, taskDoer, tags = [], img_url = ""){
     let colors = ['bg-red-200','bg-blue-200','bg-green-200','bg-pink-200','bg-purple-200','bg-yellow-200'];
     let color = colors[Math.floor(Math.random()*colors.length)];
 
@@ -45,7 +45,8 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 taskDoer,
                 tags,
                 color,
-                id
+                id,
+                img_url
             });
 
             id++;
@@ -62,7 +63,8 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 taskDoer,
                 tags,
                 color,
-                id
+                id,
+                img_url
             });
 
             id++;
@@ -79,7 +81,8 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 taskDoer,
                 tags,
                 color,
-                id
+                id,
+                img_url
             });
 
             id++;
@@ -138,15 +141,20 @@ function displayCards(filter = ""){
         if(database.to_do[i]){
             toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
                 <div class="task w-96 mx-auto ${database.to_do[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
-                  <div class="top-row flex flex-row justify-between">
-                    <button class="edit-task__button w-6 h-6" onclick="editTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
-                    <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].title}</h1>
-                    <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
-                  </div>
+                    <div class="top-row flex flex-row justify-between">
+                        <button class="edit-task__button w-6 h-6" onclick="editTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
+                        <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.to_do[i].title}</h1>
+                        <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.to_do[i].id},'to_do')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                    </div>
 
-                  <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
-                    <p class="task__details w-full max-w-96 break-words">${database.to_do[i].description}</p>
-                  </div>
+                    <div class="thumbnail w-full my-4">
+                        <img class="w-full max-h-60 rounded-md" src="${database.to_do[i].img_url}">
+                        <input class="thumbnail-img__input w-full my-2 hidden" placeholder="./Assets/your-img.jpg" value="${database.to_do[i].img_url}">
+                    </div>
+
+                    <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner flex flex-col">
+                        <p class="task__details w-full max-w-96 break-words">${database.to_do[i].description}</p>
+                    </div>
 
                     <div class="task__tags">
                         <ul class="tags flex flex-row w-full my-4 p-2 overflow-x-auto">
@@ -208,6 +216,11 @@ function displayCards(filter = ""){
                         <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.doing[i].id},'doing')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
                     </div>
 
+                    <div class="thumbnail w-full my-4">
+                        <img class="w-full max-h-60 rounded-md" src="${database.doing[i].img_url}">
+                        <input class="thumbnail-img__input w-full my-2 hidden" placeholder="./Assets/your-img.jpg" value="${database.doing[i].img_url}">
+                    </div>
+
                     <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
                         <p class="task__details w-full max-w-96 break-words">${database.doing[i].description}</p>
                     </div>
@@ -261,7 +274,7 @@ function displayCards(filter = ""){
             let database_tmp3 = {done : []};
             for(c = 0; c < database.done.length ;c++){
                 for(let key in database.done[c]){
-                    if(key != 'id' && key != 'color' && database.done[c][key].includes(filter)){
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.done[c][key].includes(filter)){
                         database_tmp3.done.push(database.done[c]);
                         break;
                     }
@@ -277,6 +290,11 @@ function displayCards(filter = ""){
                         <button class="edit-task__button w-6 h-6" onclick="editTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/edit-icon.png"></button>
                         <h1 class="task__title text-center text-2xl max-w-36 whitespace-nowrap overflow-ellipsis overflow-hidden">${database.done[i].title}</h1>
                         <button class="delete-task__button w-6 h-6" onclick="deleteTask(${database.done[i].id},'done')"><img class="w-6 h-6" src="./Assets/delete-icon.png"></button>
+                    </div>
+
+                    <div class="thumbnail w-full my-4">
+                        <img class="w-full max-h-60 rounded-md" src="${database.done[i].img_url}">
+                        <input class="thumbnail-img__input w-full my-2 hidden" placeholder="./Assets/your-img.jpg" value="${database.done[i].img_url}">
                     </div>
 
                     <div class="middle-row w-full my-4 bg-white rounded-sm h-fit shadow-inner">
@@ -375,6 +393,7 @@ function editTask(id,type){
     let selectedTaskDoer = selectedTask.querySelector('.task__doer');
     let selectedTaskCreationDate = selectedTask.querySelector('.task__creation-date');
     let tagsInput = selectedTask.querySelector('.tag__input');
+    let thumbnailInput = selectedTask.querySelector('.thumbnail-img__input');
 
     let tagsArr = tagsInput.value.split(' ');
     for(i = 0; i < tagsArr.length ; i++){
@@ -390,6 +409,7 @@ function editTask(id,type){
         selectedTaskDue.contentEditable = "false";
         selectedTaskDoer.contentEditable = "false";
         selectedTaskCreationDate.contentEditable = "false";
+        thumbnailInput.classList.add('hidden');
         tagsInput.classList.add('hidden');
 
         selectedTaskEditBtn.innerHTML = `<img class="w-6 h-6" src="./Assets/edit-icon.png"></img>`;
@@ -404,6 +424,7 @@ function editTask(id,type){
                         database.to_do[i].creationDate = selectedTaskCreationDate.innerText;
                         database.to_do[i].taskDoer = selectedTaskDoer.innerText;
                         database.to_do[i].tags = tagsArr;
+                        database.to_do[i].img_url = thumbnailInput.value;
                         break;
                     }
                 }
@@ -418,6 +439,7 @@ function editTask(id,type){
                         database.doing[i].creationDate = selectedTaskCreationDate.innerText;
                         database.doing[i].taskDoer = selectedTaskDoer.innerText;
                         database.doing[i].tags = tagsArr;
+                        database.doing[i].img_url = thumbnailInput.value;
                         break;
                     }
                 }
@@ -432,6 +454,7 @@ function editTask(id,type){
                         database.done[i].creationDate = selectedTaskCreationDate.innerText;
                         database.done[i].taskDoer = selectedTaskDoer.innerText;
                         database.done[i].tags = tagsArr;
+                        database.done[i].img_url = thumbnailInput.value;
                         break;
                     }
                 }
@@ -439,7 +462,7 @@ function editTask(id,type){
 
         }
         selectedTask.classList.remove('fixed');
-        selectedTask.classList.remove('top-1/3');
+        selectedTask.classList.remove('top-1/5');
         selectedTask.classList.remove('left-[40%]');
         selectedTask.classList.remove('z-50');
         selectedTask.classList.remove('scale-150');
@@ -461,10 +484,11 @@ function editTask(id,type){
         selectedTaskDoer.contentEditable = "true";
         selectedTaskCreationDate.contentEditable = "true";
         selectedTask.classList.add('fixed');
-        selectedTask.classList.add('top-1/3');
+        selectedTask.classList.add('top-[15%]');
         selectedTask.classList.add('left-[40%]');
         selectedTask.classList.add('z-50');
         selectedTask.classList.add('scale-150');
+        thumbnailInput.classList.remove('hidden');
         tagsInput.classList.remove('hidden');
         overlayBlock.classList.remove('hidden');
     }
@@ -506,17 +530,17 @@ function deleteTask(id,type){
     }
 
     selectedTask.classList.remove('fixed');
-    selectedTask.classList.remove('top-1/3');
+    selectedTask.classList.remove('top-[15%]');
     selectedTask.classList.remove('left-[40%]');
     selectedTask.classList.remove('z-50');
     selectedTask.classList.remove('scale-150');
     overlayBlock.classList.add('hidden');
 }
 
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
 createNewTask('doing','second task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('done','third task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('done','fourth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+createNewTask('done','third task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
+createNewTask('done','fourth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/react-js-image.png')
 createNewTask('to_do','fifth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('to_do','sixth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
 createNewTask('to_do','seventh task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
