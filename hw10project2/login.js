@@ -41,6 +41,7 @@ function validateForm(event) {
 
   if (isValid) {
     submitSuccess.textContent = "SUCCESSFUL!";
+    sessionStorage.setItem('isLogged','true');
     window.location.href = "index.html";
   }
 

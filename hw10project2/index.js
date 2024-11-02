@@ -1,5 +1,10 @@
 let database = {to_do:[],doing:[],done:[]};
 let id = 0;
+
+if(sessionStorage.getItem('isLogged') == null){
+    alert('please login first');
+    window.location.href = "login.html";
+}
   
 
 let toDoContainer = document.querySelector('.to-do');
