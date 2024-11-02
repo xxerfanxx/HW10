@@ -1,24 +1,27 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+// const { data } = require("autoprefixer");
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+// async function getData() {
+//   const url = "https://6724febfc39fedae05b38add.mockapi.io/task";
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error(`Response status: ${response.status}`);
+//     }
 
-setupCounter(document.querySelector('#counter'))
+//     const json = await response.json();
+//     console.log(json);
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// }
+
+const newData = {title : 'erfan assy', description : 'lol'}
+
+fetch("https://6724febfc39fedae05b38add.mockapi.io/task",{
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(newData)
+})
+.then(response=>response.json())
+.then(data=>console.log('updated:',data))
+.catch(error=>console.error('error creating data',error))

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="login.css">
+<body>
+    <div class="signup-form">
+        <h2>Login</h2>
+        <form id="LoginForm" onsubmit="validateForm(event)">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="your name.." required>
+            <div class="error" id="nameError"></div>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" password="password" placeholder="your password.." required>
+            <div class="error" id="passwordError"></div>
+            
+            <input type="submit" value = "Log in">
+            <div class="success" id="submit-message"></div>
+
+            <button class="toggle-button" onclick="toggleTheme()">Toggle Theme</button>
+        </form>
+    </div>
+
+    <script src="login.js" defer>
+    </script>
+</body>
+</html>

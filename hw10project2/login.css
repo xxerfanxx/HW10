@@ -1,0 +1,101 @@
+:root{
+    --background-color : #f0e3e3;
+    --signup-background-color : #ffffff;
+    --text-color : #000000;
+    --input-bg: #f9f9f9;
+    --input-border: #ccc;
+    --button-bg: #62bdfd;
+    --button-text: white;
+}
+
+.dark-theme{
+    --background-color : #222020;
+    --signup-background-color : #3f3838;
+    --text-color : #f1f1f1;
+    --input-bg: #333333;
+    --input-border: #444444;
+    --button-bg: #f93d3d;
+    --button-text: white;
+}
+
+body{
+    padding: 5rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.signup-form{
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    background-color: var(--input-bg);
+    border-radius: 8px;
+    border: 1px solid var(--input-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.signup-form h2{
+    text-align: center;
+}
+
+.signup-form label{
+    display: block;
+    margin: 10px 0 5px;
+    color: var(--text-color);
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.signup-form input[type="Retype-password"]
+{
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.signup-form input[type="submit"]{
+    width: 100%;
+    padding: 10px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.signup-form input[type="submit"]:hover{
+    opacity: 0.8;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.success{
+    color: rgb(11, 255, 55);
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.toggle-button{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
