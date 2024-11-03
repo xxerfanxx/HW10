@@ -1,5 +1,4 @@
 let database = {to_do:[],doing:[],done:[]};
-let id = 0;
 
 if(sessionStorage.getItem('isLogged') == null){
     alert('please login first');
@@ -15,6 +14,28 @@ let toDoTasksContainer = toDoContainer.querySelector('.tasks');
 let doingTasksContainer = doingContainer.querySelector('.tasks');
 let doneTasksContainer = doneContainer.querySelector('.tasks');
 let overlayBlock = document.querySelector('.overlay');
+
+let fetchedData = [];
+
+async function fetchData() {
+    try {
+        const response = await fetch("https://6724febfc39fedae05b38add.mockapi.io/task");
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        fetchedData = await response.json();
+
+        syncData();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+fetchData();
+
+function syncData(){
+    
+}
 
 function showEmptyCard(type){
     switch(type){
@@ -40,10 +61,12 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
     let colors = ['bg-red-200','bg-blue-200','bg-green-200','bg-pink-200','bg-purple-200','bg-yellow-200'];
     let color = colors[Math.floor(Math.random()*colors.length)];
 
+    let newCard
+
     switch(type){
         case "to_do":
 
-            database.to_do.push({
+            newCard = {
                 title,
                 description,
                 creationDate,
@@ -52,8 +75,19 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 tags,
                 color,
                 id,
-                img_url
-            });
+                img_url,
+                type
+            }
+
+            database.to_do.push(newCard);
+
+            fetch("https://6724febfc39fedae05b38add.mockapi.io/task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newCard)
+            })
 
             id++;
 
@@ -61,7 +95,7 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
         
         case "doing":
             
-            database.doing.push({
+            newCard = {
                 title,
                 description,
                 creationDate,
@@ -70,8 +104,19 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 tags,
                 color,
                 id,
-                img_url
-            });
+                img_url,
+                type
+            }
+
+            database.doing.push(newCard);
+
+            fetch("https://6724febfc39fedae05b38add.mockapi.io/task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newCard)
+            })
 
             id++;
 
@@ -79,7 +124,7 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
 
         case "done":
 
-            database.done.push({
+            newCard = {
                 title,
                 description,
                 creationDate,
@@ -88,8 +133,19 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 tags,
                 color,
                 id,
-                img_url
-            });
+                img_url,
+                type
+            }
+
+            database.done.push(newCard);
+
+            fetch("https://6724febfc39fedae05b38add.mockapi.io/task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newCard)
+            })
 
             id++;
 
@@ -543,11 +599,11 @@ function deleteTask(id,type){
     overlayBlock.classList.add('hidden');
 }
 
-createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
-createNewTask('doing','second task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('done','third task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
-createNewTask('done','fourth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/react-js-image.png')
-createNewTask('to_do','fifth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','sixth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','seventh task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
-createNewTask('to_do','eightth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+// createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
+// createNewTask('doing','second task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+// createNewTask('done','third task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
+// createNewTask('done','fourth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/react-js-image.png')
+// createNewTask('to_do','fifth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+// createNewTask('to_do','sixth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+// createNewTask('to_do','seventh task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
+// createNewTask('to_do','eightth task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
