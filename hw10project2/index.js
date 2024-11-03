@@ -49,7 +49,6 @@ function syncData(){
         }
     }
 
-    console.log(database)
     displayCards();
 }
 
@@ -575,6 +574,8 @@ function editTask(id,type){
 function deleteTask(id,type){
     let selectedTask = document.querySelector(`.task-id-${id}`);
 
+    deleteObject(id);
+
     switch(type){
         case 'to_do':
             toDoTasksContainer.removeChild(selectedTask);
@@ -614,6 +615,23 @@ function deleteTask(id,type){
     selectedTask.classList.remove('scale-150');
     overlayBlock.classList.add('hidden');
 }
+
+function deleteObject(id) {
+
+    const apiUrl = "https://6724febfc39fedae05b38add.mockapi.io/task";
+
+    fetch(`${apiUrl}/${id}`, {
+        method: "DELETE",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        console.log(`Object with id ${id} deleted successfully`);
+    })
+    .catch(error => console.error("Error deleting object:", error));
+}
+
 
 // createNewTask('to_do','first task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'], './Assets/example-background-icon.jpg')
 // createNewTask('doing','second task', 'this is the first task that is important','2024/10/30','2024/11/05','Erfan Ghasemian',['important','UI/UX'])
