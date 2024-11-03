@@ -45,7 +45,7 @@ function syncData(){
             database.doing.push(fetchedData[i]);
         }
         else{
-            database.doing.push(fetchedData[i])
+            database.done.push(fetchedData[i]);
         }
     }
 
@@ -413,7 +413,8 @@ function transferTaskNext(id,type){
             for(i = 0; i < database.to_do.length; i++){
                 if(database.to_do[i].id == id){
                     database.doing.push(database.to_do[i]);
-                    deleteTask(id,type);
+                    updateObject(id,{type: 'doing'});
+                    deleteTask(id,type,false);
                     displayCards()
                     break;
                 }
@@ -424,7 +425,8 @@ function transferTaskNext(id,type){
             for(i = 0; i < database.doing.length; i++){
                 if(database.doing[i].id == id){
                     database.done.push(database.doing[i]);
-                    deleteTask(id,type);
+                    updateObject(id,{type: 'done'});
+                    deleteTask(id,type,false);
                     displayCards()
                     break;
                 }
@@ -441,7 +443,8 @@ function transferTaskBack(id,type){
             for(i = 0; i < database.doing.length; i++){
                 if(database.doing[i].id == id){
                     database.to_do.push(database.doing[i]);
-                    deleteTask(id,type);
+                    updateObject(id,{type: 'to_do'});
+                    deleteTask(id,type,false);
                     displayCards()
                     break;
                 }
@@ -452,7 +455,8 @@ function transferTaskBack(id,type){
             for(i = 0; i < database.done.length; i++){
                 if(database.done[i].id == id){
                     database.doing.push(database.done[i]);
-                    deleteTask(id,type);
+                    updateObject(id,{type: 'doing'});
+                    deleteTask(id,type,false);
                     displayCards()
                     break;
                 }
@@ -478,6 +482,16 @@ function editTask(id,type){
             tagsArr.splice(i,1);
         }
     }
+
+    updateObject(id, {
+        title: selectedTaskTitle.innerText,
+        description:  selectedTaskDetails.innerText,
+        dueDate: selectedTaskDue.innerText,
+        creationDate: selectedTaskCreationDate.innerText,
+        taskDoer: selectedTaskDoer.innerText,
+        tags: tagsArr,
+        img_url: thumbnailInput.value
+    });
 
     if (selectedTask.classList.contains('on-edit-mode')){
         selectedTask.classList.remove('on-edit-mode');
@@ -571,10 +585,35 @@ function editTask(id,type){
     }
 }
 
-function deleteTask(id,type){
-    let selectedTask = document.querySelector(`.task-id-${id}`);
+function updateObject(id, updatedData) {
+    const apiUrl = "https://6724febfc39fedae05b38add.mockapi.io/task";
 
-    deleteObject(id);
+    fetch(`${apiUrl}/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(`Object with id ${id} updated successfully:`, data);
+    })
+    .catch(error => console.error("Error updating object:", error));
+}
+
+
+function deleteTask(id, type, applyToApi = true){
+    let selectedTask = document.querySelector(`.task-id-${id}`);
+    
+    if(applyToApi){
+        deleteObject(id);
+    }
 
     switch(type){
         case 'to_do':
