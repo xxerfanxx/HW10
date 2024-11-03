@@ -1,4 +1,5 @@
 let database = {to_do:[],doing:[],done:[]};
+let id = 0;
 
 if(sessionStorage.getItem('isLogged') == null){
     alert('please login first');
@@ -34,7 +35,22 @@ async function fetchData() {
 fetchData();
 
 function syncData(){
-    
+    id = fetchedData.at(-1)['id'] + 1;
+
+    for(i = 0; i<fetchedData.length ;i++){
+        if(fetchedData[i]['type'] == 'to_do'){
+            database.to_do.push(fetchedData[i]);
+        }
+        else if(fetchedData[i]['type'] == 'doing'){
+            database.doing.push(fetchedData[i]);
+        }
+        else{
+            database.doing.push(fetchedData[i])
+        }
+    }
+
+    console.log(database)
+    displayCards();
 }
 
 function showEmptyCard(type){
