@@ -35,7 +35,12 @@ async function fetchData() {
 fetchData();
 
 function syncData(){
-    id = +fetchedData.at(-1)['id'] + 1;
+    if(fetchedData.length > 0){
+        id = +fetchedData.at(-1)['id'] + 1;
+    }
+    else{
+        id = 1;
+    }
 
     for(i = 0; i<fetchedData.length ;i++){
         if(fetchedData[i]['type'] == 'to_do'){
@@ -48,8 +53,6 @@ function syncData(){
             database.done.push(fetchedData[i]);
         }
     }
-
-    console.log(id)
 
     displayCards();
 }
@@ -184,16 +187,51 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
 
 function setFilter(){
     let filter = document.querySelector('.search-bar').value;
-    displayCards(filter);
+    let filters = filter.trim().split(' ')
+    let filters_tmp = [];
+    for(i = 0; i < filters.length; i++){
+        if(filters[i].length > 0){
+            filters_tmp.push(filters[i])
+        }
+    }
+
+    filters = filters_tmp;
+
+    displayCards(filters);
 }
 
-function displayCards(filter = ""){
+function displayCards(filters = []){
     toDoTasksContainer.innerHTML = "";
     doingTasksContainer.innerHTML = "";
     doneTasksContainer.innerHTML = "";
 
+    let filter;
 
     let database_backUp = structuredClone(database);
+
+    if(filters.length > 0){
+
+        let database_tmp1 = {to_do : []};
+
+        for(c = 0; c < database.to_do.length; c++){
+
+            for(j = 0; j < filters.length; j++){
+                filter = filters[j];
+    
+                for(let key in database.to_do[c]){
+
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.to_do[c][key].includes(filter)){
+                        if(!database_tmp1.to_do.includes(database.to_do[c])){
+                            database_tmp1.to_do.push(database.to_do[c]);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+        database.to_do = database_tmp1.to_do;
+    }
 
     for(i = 0; i < database.to_do.length; i++){
 
@@ -206,18 +244,7 @@ function displayCards(filter = ""){
             }
         }
 
-        if(filter){
-            let database_tmp1 = {to_do : []};
-            for(c = 0; c < database.to_do.length ;c++){
-                for(let key in database.to_do[c]){
-                    if(key != 'id' && key != 'color' && key != 'img_url' && database.to_do[c][key].includes(filter)){
-                        database_tmp1.to_do.push(database.to_do[c]);
-                        break;
-                    }
-                }
-            }
-            database.to_do = database_tmp1.to_do;
-        }
+
         if(database.to_do[i]){
             toDoTasksContainer.innerHTML += `<li class="task-id-${database.to_do[i].id} transition-transform">
                 <div class="task w-96 mx-auto ${database.to_do[i].color} rounded-md my-4 p-2 flex flex-col shadow-lg">
@@ -261,7 +288,29 @@ function displayCards(filter = ""){
         
     }
 
-    database = structuredClone(database_backUp);
+    if(filters.length > 0){
+
+        let database_tmp2 = {doing : []};
+
+        for(c = 0; c < database.doing.length; c++){
+
+            for(j = 0; j < filters.length; j++){
+                filter = filters[j];
+    
+                for(let key in database.doing[c]){
+
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.doing[c][key].includes(filter)){
+                        if(!database_tmp2.doing.includes(database.doing[c])){
+                            database_tmp2.doing.push(database.doing[c]);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+        database.doing = database_tmp2.doing;
+    }
 
     for(i = 0; i < database.doing.length; i++){
 
@@ -272,19 +321,6 @@ function displayCards(filter = ""){
                 tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.doing[i].tags[j]}</li>`; 
                 tagsString += database.doing[i].tags[j] + ' ';
             }
-        }
-
-        if(filter){
-            let database_tmp2 = {doing : []};
-            for(c = 0; c < database.doing.length ;c++){
-                for(let key in database.doing[c]){
-                    if(key != 'id' && key != 'color' && key != 'img_url' && database.doing[c][key].includes(filter)){
-                        database_tmp2.doing.push(database.doing[c]);
-                        break;
-                    }
-                }
-            }
-            database.doing = database_tmp2.doing;
         }
         
         if(database.doing[i]){
@@ -339,6 +375,30 @@ function displayCards(filter = ""){
         
     }
 
+    if(filters.length > 0){
+
+        let database_tmp3 = {done : []};
+
+        for(c = 0; c < database.done.length; c++){
+
+            for(j = 0; j < filters.length; j++){
+                filter = filters[j];
+    
+                for(let key in database.done[c]){
+
+                    if(key != 'id' && key != 'color' && key != 'img_url' && database.done[c][key].includes(filter)){
+                        if(!database_tmp3.done.includes(database.done[c])){
+                            database_tmp3.done.push(database.done[c]);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+        database.done = database_tmp3.done;
+    }
+
     for(i = 0; i < database.done.length; i++){
 
         let tagsString = "";
@@ -348,19 +408,6 @@ function displayCards(filter = ""){
                 tagsHTML += `<li class="rounded-2xl bg-blue-300 w-fit px-2 py-[2px] mr-2 text-xs">${database.done[i].tags[j]}</li>`; 
                 tagsString += database.done[i].tags[j] + ' ';
             }
-        }
-
-        if(filter){
-            let database_tmp3 = {done : []};
-            for(c = 0; c < database.done.length ;c++){
-                for(let key in database.done[c]){
-                    if(key != 'id' && key != 'color' && key != 'img_url' && database.done[c][key].includes(filter)){
-                        database_tmp3.done.push(database.done[c]);
-                        break;
-                    }
-                }
-            }
-            database.done = database_tmp3.done;
         }
         
         if(database.done[i]){
