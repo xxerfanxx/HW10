@@ -35,7 +35,7 @@ async function fetchData() {
 fetchData();
 
 function syncData(){
-    id = fetchedData.at(-1)['id'] + 1;
+    id = +fetchedData.at(-1)['id'] + 1;
 
     for(i = 0; i<fetchedData.length ;i++){
         if(fetchedData[i]['type'] == 'to_do'){
@@ -48,6 +48,8 @@ function syncData(){
             database.done.push(fetchedData[i]);
         }
     }
+
+    console.log(id)
 
     displayCards();
 }
@@ -103,6 +105,7 @@ function createNewTask(type, title, description, creationDate, dueDate, taskDoer
                 },
                 body: JSON.stringify(newCard)
             })
+            .then(console.log(id))
 
             id++;
 
